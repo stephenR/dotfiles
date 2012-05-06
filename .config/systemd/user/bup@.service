@@ -1,0 +1,8 @@
+[Unit]
+Description=Bup Backup %I
+BindTo=ac.target
+
+[Service]
+ExecStartPre=/home/tsuro/opt/bup/bin/bup index -uv %I
+ExecStart=/home/tsuro/opt/bup/bin/bup save -n laptop%i -r zero-entropy.de: %I
+

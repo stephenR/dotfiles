@@ -1,0 +1,13 @@
+[Unit]
+Description=Backup Timer
+
+[Timer]
+OnStartupSec=10m
+OnUnitActiveSec=6h
+
+[Install]
+#WantedBy=default.target
+Alias=default.target.wants/bup@-home-tsuro-documents.timer
+Alias=default.target.wants/bup@-home-tsuro-pictures.timer
+Alias=default.target.wants/bup@-home-tsuro-private.timer
+

@@ -10,7 +10,9 @@ set wildmode=longest:full
 set mouse=a
 set splitbelow
 set splitright
-set wildignore+=*.o,*.obj,.git,*.class,*.html
+set wildignore+=*.o,*.obj,.git,*.class,*.html,*.pyc
+
+set relativenumber
 
 "search
 set noincsearch
@@ -29,6 +31,7 @@ set virtualedit=all
 set listchars=eol:$,tab:\ \ 
 set list
 set showbreak=\ \ 
+set showcmd
 
 "make i_<C-U> and i_<C-W> undoable
 inoremap <C-U> <C-G>u<C-U>
@@ -130,6 +133,7 @@ au FileType python set omnifunc=pythoncomplete#Complete
 let g:SuperTabDefaultCompletionType = "context"
 au FileType python set tabstop=4
 au FileType python set expandtab
+au FileType python set foldmethod=indent
 au BufNewFile,BufRead *.ah set filetype=cpp
 
 "clang complete

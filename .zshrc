@@ -42,7 +42,7 @@ compinit
 # prompt
 autoload -U promptinit
 promptinit
-prompt gentoo
+#prompt gentoo
 
 setopt hist_ignore_space
 setopt hist_ignore_all_dups

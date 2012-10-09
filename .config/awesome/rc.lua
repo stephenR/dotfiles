@@ -7,9 +7,34 @@ require("beautiful")
 -- Notification library
 require("naughty")
 
+-- {{{ Error handling
+-- Check if awesome encountered an error during startup and fell back to
+-- another config (This code will only ever execute for the fallback config)
+if awesome.startup_errors then
+    naughty.notify({ preset = naughty.config.presets.critical,
+                     title = "Oops, there were errors during startup!",
+                     text = awesome.startup_errors })
+end
+
+-- Handle runtime errors after startup
+do
+    local in_error = false
+    awesome.add_signal("debug::error", function (err)
+        -- Make sure we don't go into an endless error loop
+        if in_error then return end
+        in_error = true
+
+        naughty.notify({ preset = naughty.config.presets.critical,
+                         title = "Oops, an error happened!",
+                         text = err })
+        in_error = false
+    end)
+end
+-- }}}
+
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
-beautiful.init("/home/tsuro/.config/awesome/themes/default/theme.lua")
+beautiful.init("/usr/share/awesome/themes/default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "urxvtc"
@@ -28,15 +53,21 @@ layouts =
 {
     awful.layout.suit.floating,
     awful.layout.suit.tile,
+    awful.layout.suit.fair,
     awful.layout.suit.max,
-	}
+}
 -- }}}
 
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
+--tags = {}
+--for s = 1, screen.count() do
+--    -- Each screen has its own tag table.
+--    tags[s] = awful.tag({ "一", "二", "三", "四", "五", "六", "七", "八", "九" }, s, layouts[1])
+--end
 tags = {
-  names = { "firefox", "pdf", "3", "4", "5", "6", "7", "im", "mail" },
-  layout = { layouts[3], layouts[3], layouts[2], layouts[2], layouts[2], layouts[2], layouts[2], layouts[3], layouts[3] }
+  names = { "一", "二", "三", "四", "五", "六", "七", "八", "九" },
+  layout = { layouts[1], layouts[4], layouts[2], layouts[2], layouts[2], layouts[2], layouts[2], layouts[4], layouts[4] }
 }
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
@@ -44,47 +75,11 @@ for s = 1, screen.count() do
 end
 -- }}}
 
--- {{{ volume function
-cardid  = 0
-channel = "Master"
-function volume (mode, widget)
-	if mode == "update" then
-             local fd = io.popen("amixer -c " .. cardid .. " -- sget " .. channel)
-             local status = fd:read("*all")
-             fd:close()
-		
-		local volume = string.match(status, "(%d?%d?%d)%%")
-		volume = string.format("%3d", volume)
-
-		status = string.match(status, "%[(o[^%]]*)%]")
-
-		if string.find(status, "on", 1, true) then
-			widget:bar_properties_set("vol", {["bg"] = "#000000"})
-			--volume = volume .. "%"
-		else
-			widget:bar_properties_set("vol", {["bg"] = "#cc3333"})
-			--volume = volume .. "M"
-		end
-		widget:bar_data_add("vol", volume)
-		--widget.text = volume
-	elseif mode == "up" then
-		io.popen("amixer -q -c " .. cardid .. " sset " .. channel .. " 5%+"):read("*all")
-		volume("update", widget)
-	elseif mode == "down" then
-		io.popen("amixer -q -c " .. cardid .. " sset " .. channel .. " 5%-"):read("*all")
-		volume("update", widget)
-	else
-		io.popen("amixer -c " .. cardid .. " sset " .. channel .. " toggle"):read("*all")
-		volume("update", widget)
-	end
-end
--- }}}
-
 -- {{{ Menu
 -- Create a laucher widget and a main menu
 myawesomemenu = {
    { "manual", terminal .. " -e man awesome" },
-   { "edit config", editor_cmd .. " " .. awful.util.getdir("config") .. "/rc.lua" },
+   { "edit config", editor_cmd .. " " .. awesome.conffile },
    { "restart", awesome.restart },
    { "quit", awesome.quit }
 }
@@ -96,37 +91,6 @@ mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesom
 
 mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
                                      menu = mymainmenu })
--- }}}
-
--- {{{ volume widget
- pb_volume =  widget({ type = "progressbar", name = "pb_volume", align = "right" })
- pb_volume.width = 12
- pb_volume.height = 1
- pb_volume.border_padding = 1
- pb_volume.border_width = 1
- pb_volume.ticks_count = 8
- pb_volume.gap = 0
- pb_volume.vertical = true
- 
- pb_volume:bar_properties_set("vol", 
- { 
-   ["bg"] = "#000000",
-   ["fg"] = "green",
-   ["fg_center"] = "yellow",
-   ["fg_end"] = "red",
-   ["fg_off"] = "black",
-   ["border_color"] = "#999933",
-   ["min_value"] = 0,
-   ["max_value"] = 100,
-   ["reverse"] = false
- })
-
- pb_volume:buttons({
-    	button({ }, 4, function () volume("up", pb_volume) end),
- 		button({ }, 5, function () volume("down", pb_volume) end),
-    	button({ }, 1, function () volume("mute", pb_volume) end)
- })
- volume("update", pb_volume)
 -- }}}
 
 -- {{{ Wibox
@@ -152,9 +116,10 @@ mytaglist.buttons = awful.util.table.join(
 mytasklist = {}
 mytasklist.buttons = awful.util.table.join(
                      awful.button({ }, 1, function (c)
-                                              if c ~= client.focus then
+                                              --if c == client.focus then
                                               --    c.minimized = true
                                               --else
+                                              if c ~= client.focus then
                                                   if not c:isvisible() then
                                                       awful.tag.viewonly(c:tags()[1])
                                                   end
@@ -212,7 +177,6 @@ for s = 1, screen.count() do
         },
         mylayoutbox[s],
         mytextclock,
-        pb_volume,
         s == 1 and mysystray or nil,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
@@ -263,7 +227,8 @@ globalkeys = awful.util.table.join(
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
     awful.key({ modkey, "Control" }, "r", awesome.restart),
-    awful.key({ modkey, "Shift"   }, "q", awesome.quit),
+    --awful.key({ modkey, "Shift"   }, "q", awesome.quit),
+    awful.key({ modkey, "Shift"   }, "q", function () awful.util.spawn("gnome-session-quit") end),
 
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)    end),
     awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)    end),
@@ -285,17 +250,7 @@ globalkeys = awful.util.table.join(
                   mypromptbox[mouse.screen].widget,
                   awful.util.eval, nil,
                   awful.util.getdir("cache") .. "/history_eval")
-              end),
-
-	-- Multimedia Keys
-    awful.key({  }, "XF86AudioMute", function () volume("mute", pb_volume) end),
-    awful.key({  }, "XF86AudioLowerVolume", function () volume("down", pb_volume) end),
-    awful.key({  }, "XF86AudioRaiseVolume", function () volume("up", pb_volume) end),
-    awful.key({  }, "XF86WebCam", function () awful.util.spawn("urxvtc -e /bin/bash -c 'mplayer -shuffle -loop 0 -playlist <(find /home/tsuro/music -iname \"*.mp3\")'") end),
-    awful.key({  }, "XF86AudioPlay", function () awful.util.spawn_with_shell("echo 'pause' > /home/tsuro/.mplayer/mplinput") end),
-    awful.key({  }, "XF86AudioStop", function () awful.util.spawn_with_shell("pkill mplayer") end),
-    awful.key({  }, "XF86AudioPrev", function () awful.util.spawn_with_shell("echo 'pt_step -1' > /home/tsuro/.mplayer/mplinput") end),
-    awful.key({  }, "XF86AudioNext", function () awful.util.spawn_with_shell("echo 'pt_step 1' > /home/tsuro/.mplayer/mplinput") end)
+              end)
 )
 
 clientkeys = awful.util.table.join(
@@ -383,12 +338,7 @@ awful.rules.rules = {
     { rule = { class = "gimp" },
       properties = { floating = true } },
     { rule = { class = "Firefox", role = "browser" },
-      callback = function(c) awful.client.movetotag(tags[mouse.screen][1], c) end},
-	--{ rule = { class = "Pidgin", role = "buddy_list" },
-    --  callback = function(c) awful.client.movetotag(tags[mouse.screen][8], c) end,
-    --  properties = { floating = true } },
-    --{ rule = { class = "Pidgin", role = "conversation" },
-    --  properties = { floating = true }, callback = function(c) awful.client.setslave(c); awful.titlebar.add(c); awful.client.movetotag(tags[mouse.screen][8], c) end },
+      callback = function(c) awful.client.movetotag(tags[mouse.screen][1], c); c.maximized = true end},
     { rule = { class = "Thunderbird", role = "3pane" },
       callback = function(c) awful.client.movetotag(tags[mouse.screen][9], c) end},
     { rule = { class = "Thunderbird", role = "Msgcompose" },
@@ -400,7 +350,7 @@ awful.rules.rules = {
       callback = function(c) awful.client.movetotag(tags[mouse.screen][4], c) end},
     { rule = { class = "Evince" },
       callback = function(c) awful.client.movetotag(tags[mouse.screen][2], c) end,
-      properties = { switchtotag = true } },
+      properties = { switchtotag = true } }
 }
 -- }}}
 
@@ -434,17 +384,3 @@ end)
 client.add_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.add_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
-
--- {{{ Autostart
-    --awful.util.spawn_with_shell("urxvtd -q -o -f")
-	--awful.util.spawn("nm-applet")
-    --awful.util.spawn("xscreensaver -nosplash")
-    --awful.util.spawn_with_shell("ibus-daemon -d -x")
-    --awful.util.spawn_with_shell("/etc/acpi/display.sh")
-    --awful.util.spawn_with_shell("/etc/NetworkManager/dispatcher.d/ssl-tunnel.sh x up")
--- }}}
-
--- {{{ hooks
-awful.hooks.timer.register(10, function () volume("update", pb_volume) end)
--- }}}
-

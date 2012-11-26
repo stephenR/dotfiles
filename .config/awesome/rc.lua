@@ -93,6 +93,17 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
                                      menu = mymainmenu })
 -- }}}
 
+-- {{{ Helper functions
+function client_is_on_tag(c, name)
+  for _, tag in pairs(c:tags()) do
+    if tag.name == name then
+      return true
+    end
+  end
+  return false
+end
+-- }}}
+
 -- {{{ Wibox
 -- Create a textclock widget
 mytextclock = awful.widget.textclock({ align = "right" })
@@ -332,7 +343,7 @@ awful.rules.rules = {
                      keys = clientkeys,
                      buttons = clientbuttons } },
     { rule = { class = "MPlayer" },
-      properties = { floating = true } },
+      properties = { floating = true ; ontop = true } },
     { rule = { class = "pinentry" },
       properties = { floating = true } },
     { rule = { class = "gimp" },
@@ -348,6 +359,9 @@ awful.rules.rules = {
 	-- xterm rule for the qtcreator console
     { rule = { class = "XTerm", name = "qtcreator_process_stub" },
       callback = function(c) awful.client.movetotag(tags[mouse.screen][4], c) end},
+    { rule = { class = "URxvt" },
+      --callback = function(c) if not table.contains(c:tags(), 1) then c.floating = true ; c.ontop = true end end},
+      callback = function(c) if client_is_on_tag(c, "一") then awful.client.floating.set(c, true); c.above = true; awful.placement.under_mouse(c) end end},
     { rule = { class = "Evince" },
       callback = function(c) awful.client.movetotag(tags[mouse.screen][2], c) end,
       properties = { switchtotag = true } }

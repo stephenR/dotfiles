@@ -42,7 +42,7 @@ compinit
 # prompt
 autoload -U promptinit
 promptinit
-#prompt gentoo
+prompt redhat
 
 setopt hist_ignore_space
 setopt hist_ignore_all_dups
@@ -52,7 +52,9 @@ alias ls='ls --color=auto'
 alias grepc='grep --color=always'
 alias grep='grep --color=auto'
 
-export PATH="$PATH:/sbin:/usr/sbin:/usr/local/sbin"
+alias vim='gvim -v'
+
+export PATH="/home/tsuro/opt/bin:$PATH:/sbin:/usr/sbin:/usr/local/sbin"
 
 bindkey "^R" history-incremental-search-backward
 
@@ -87,3 +89,19 @@ zle -N zle-line-init
 
 #TODO syntax highlighting
 
+alias bell='echo -en "\a"'
+
+#switch to last working directory
+function cd() {
+    builtin cd "$@";
+    if [ "$PWD" != "/home/tsuro" ]; then
+        echo "$PWD" >! ~/.cwd;
+    fi
+}
+export cd
+
+alias cwd='cd "$(cat ~/.cwd)" 2>/dev/null'
+
+cwd
+
+#export LD_PRELOAD="/home/tsuro/workspace/opt/stderred/build/libstderred.so${LD_PRELOAD:+:$LD_PRELOAD}"

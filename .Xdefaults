@@ -14,9 +14,9 @@
 
     ## geometry and font
     URxvt*geometry: 84?24
-#  	URxvt.font: xft:DejaVu Sans Mono:pixelsize=10
+#	URxvt.font: xft:DejaVu Sans Mono:pixelsize=10
 #	URxvt.font: xft:Terminus:antialias=false:pixelsize=9
-	URxvt*font: xft:Bitstream Vera Sans Mono:pixelsize=10:antialias=true:hinting=true
+	URxvt*font: xft:Bitstream Vera Sans Mono:pixelsize=9:antialias=true:hinting=true
 
 #    ## change default colors
 #    URxvt*background: #000000
@@ -38,33 +38,54 @@
 #    URxvt*color14: #50FCF8
 #    URxvt*color15: #e01010
 
-	URxvt*background: #0f0f0f
-	URxvt*foreground: #c8c8c8
+#	URxvt*background: #0f0f0f
+#	URxvt*foreground: #c8c8c8
+#
+#!black
+#	URxvt*color0:  #251f1f
+#	URxvt*color8:  #5e5e5e
+#!red
+#	URxvt*color1:  #eb4509
+#	URxvt*color9:  #eb4509
+#!green
+#	URxvt*color2:  #94e76b
+#	URxvt*color10: #95e76b
+#!yellow
+#	URxvt*color3:  #ffac18
+#	URxvt*color11: #ffac18
+#!blue
+#	URxvt*color4:  #46aede
+#	URxvt*color12: #46aede
+#!magenta
+#	URxvt*color5:  #e32c57
+#	URxvt*color13: #e32c57
+#!cyan
+#	URxvt*color6:  #d6dbac
+#	URxvt*color14: #d6dbac
+#!white
+#	URxvt*color7:  #efefef
+#	URxvt*color15: #efefef
 
-!black
-	URxvt*color0:  #251f1f
-	URxvt*color8:  #5e5e5e
-!red
-	URxvt*color1:  #eb4509
-	URxvt*color9:  #eb4509
-!green
-	URxvt*color2:  #94e76b
-	URxvt*color10: #95e76b
-!yellow
-	URxvt*color3:  #ffac18
-	URxvt*color11: #ffac18
-!blue
-	URxvt*color4:  #46aede
-	URxvt*color12: #46aede
-!magenta
-	URxvt*color5:  #e32c57
-	URxvt*color13: #e32c57
-!cyan
-	URxvt*color6:  #d6dbac
-	URxvt*color14: #d6dbac
-!white
-	URxvt*color7:  #efefef
-	URxvt*color15: #efefef
+URxvt*background: #000000
+URxvt*foreground: #bfbdc0
+
+URxvt*color0: #000000
+URxvt*color1: #8a110e
+URxvt*color2: #669f3d
+URxvt*color3: #b3751e
+URxvt*color4: #493d9f
+URxvt*color5: #9216a3
+URxvt*color6: #198a9c
+URxvt*color7: #bfbdc0
+
+URxvt*color8: #686773
+URxvt*color9: #fc5166
+URxvt*color10: #63ff54
+URxvt*color11: #ffd75c
+URxvt*color12: #766eff
+URxvt*color13: #e151ff
+URxvt*color14: #57ffec
+URxvt*color15: #ffffff
 
 	 ! Extensions
 	 urxvt*perl-lib:        /usr/lib/urxvt/perl/
@@ -77,13 +98,13 @@
 	 urxvt.modifier:	alt
 	 urxvt.urgentOnBell:	true
 
-	 URxvt.keysym.C-1: command:\033]710;xft:Bitstream Vera Sans Mono:pixelsize=10:antialias=true:hinting=true\007
-	 URxvt.keysym.C-2: command:\033]710;xft:Bitstream Vera Sans Mono:pixelsize=12:antialias=true:hinting=true\007
-	 URxvt.keysym.C-3: command:\033]710;xft:Bitstream Vera Sans Mono:pixelsize=14:antialias=true:hinting=true\007
-	 URxvt.keysym.C-4: command:\033]710;xft:Bitstream Vera Sans Mono:pixelsize=16:antialias=true:hinting=true\007
-	 URxvt.keysym.C-5: command:\033]710;xft:Bitstream Vera Sans Mono:pixelsize=18:antialias=true:hinting=true\007
-	 URxvt.keysym.C-6: command:\033]710;xft:Bitstream Vera Sans Mono:pixelsize=20:antialias=true:hinting=true\007
-	 URxvt.keysym.C-7: command:\033]710;xft:Bitstream Vera Sans Mono:pixelsize=22:antialias=true:hinting=true\007
-	 URxvt.keysym.C-8: command:\033]710;xft:Bitstream Vera Sans Mono:pixelsize=24:antialias=true:hinting=true\007
-	 URxvt.keysym.C-9: command:\033]710;xft:Bitstream Vera Sans Mono:pixelsize=26:antialias=true:hinting=true\007
-	 URxvt.keysym.C-0: command:\033]710;xft:Bitstream Vera Sans Mono:pixelsize=28:antialias=true:hinting=true\007
+	 URxvt.keysym.C-1: command:\033]710;xft:Bitstream Vera Sans Mono:pixelsize=6:antialias=true:hinting=true\007
+	 URxvt.keysym.C-2: command:\033]710;xft:Bitstream Vera Sans Mono:pixelsize=8:antialias=true:hinting=true\007
+	 URxvt.keysym.C-3: command:\033]710;xft:Bitstream Vera Sans Mono:pixelsize=9:antialias=true:hinting=true\007
+	 URxvt.keysym.C-4: command:\033]710;xft:Bitstream Vera Sans Mono:pixelsize=10:antialias=true:hinting=true\007
+	 URxvt.keysym.C-5: command:\033]710;xft:Bitstream Vera Sans Mono:pixelsize=12:antialias=true:hinting=true\007
+	 URxvt.keysym.C-6: command:\033]710;xft:Bitstream Vera Sans Mono:pixelsize=14:antialias=true:hinting=true\007
+	 URxvt.keysym.C-7: command:\033]710;xft:Bitstream Vera Sans Mono:pixelsize=18:antialias=true:hinting=true\007
+	 URxvt.keysym.C-8: command:\033]710;xft:Bitstream Vera Sans Mono:pixelsize=26:antialias=true:hinting=true\007
+	 URxvt.keysym.C-9: command:\033]710;xft:Bitstream Vera Sans Mono:pixelsize=32:antialias=true:hinting=true\007
+	 URxvt.keysym.C-0: command:\033]710;xft:Bitstream Vera Sans Mono:pixelsize=40:antialias=true:hinting=true\007

@@ -58,3 +58,15 @@
 [submodule "/home/tsuro/.vim/bundle/gundo"]
 	path = /home/tsuro/.vim/bundle/gundo
 	url = http://github.com/sjl/gundo.vim.git
+[submodule ".vim/bundle/gundo"]
+	path = .vim/bundle/gundo
+	url = https://github.com/sjl/gundo.vim.git
+[submodule ".vim/pathogen"]
+	path = .vim/pathogen
+	url = https://github.com/tpope/vim-pathogen.git
+[submodule ".vim/bundle/fugitive"]
+	path = .vim/bundle/fugitive
+	url = https://github.com/tpope/vim-fugitive.git
+[submodule ".vim/bundle/autoload_cscope"]
+	path = .vim/bundle/autoload_cscope
+	url = https://github.com/vim-scripts/autoload_cscope.vim.git

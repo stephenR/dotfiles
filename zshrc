@@ -2,8 +2,8 @@ export WORDCHARS="*?_-.[]~=&;!#$%^(){}<>"
 
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
-HISTSIZE=1000
-SAVEHIST=1000
+HISTSIZE=10000
+SAVEHIST=10000
 setopt extendedglob
 bindkey -v
 bindkey "^?" backward-delete-char
@@ -105,3 +105,37 @@ alias cwd='cd "$(cat ~/.cwd)" 2>/dev/null'
 cwd
 
 #export LD_PRELOAD="/home/tsuro/workspace/opt/stderred/build/libstderred.so${LD_PRELOAD:+:$LD_PRELOAD}"
+
+source /home/tsuro/workspace/opt/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+ZSH_HIGHLIGHT_HIGHLIGHTERS=( main brackets)
+
+setopt prompt_subst
+autoload -Uz vcs_info
+zstyle ':vcs_info:*' actionformats \
+       '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{3}|%F{1}%a%F{5}]%f'
+zstyle ':vcs_info:*' formats \
+       '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{5}]%f '
+zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{3}%r'
+
+zstyle ':vcs_info:*' enable git svn
+
+# or use pre_cmd, see man zshcontrib
+vcs_info_wrapper() {
+  vcs_info
+  if [ -n "$vcs_info_msg_0_" ]; then
+    echo "%{$fg[grey]%}${vcs_info_msg_0_}%{$reset_color%}$del"
+fi
+}
+#RPROMPT=$'$(vcs_info_wrapper)'
+
+
+
+#PROMPT="%{$fg[green]%}%n@%m%{$reset_color%}:%{$fg[blue]%}%~%{$reset_color%}% :"$'$(vcs_info_wrapper)'"# "
+PROMPT="%F{2}%n@%m:%F{3}%~%{$reset_color%}% :"$'$(vcs_info_wrapper)'"# "
+export PYTHONPATH=/home/tsuro/workspace/opt/clang/bindings/python
+
+
+export LIBRARY_PATH=/home/tsuro/workspace/msc/gcc/libfpprotect
+export LD_LIBRARY_PATH=/home/tsuro/workspace/msc/gcc/libfpprotect
+

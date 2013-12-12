@@ -52,7 +52,9 @@ alias ls='ls --color=auto'
 alias grepc='grep --color=always'
 alias grep='grep --color=auto'
 
-alias vim='gvim -v'
+if [ -e '/etc/fedora-release' ]; then
+  alias vim='gvim -v'
+fi
 
 export PATH="/home/tsuro/opt/bin:$PATH:/sbin:/usr/sbin:/usr/local/sbin"
 

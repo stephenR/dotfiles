@@ -106,10 +106,6 @@ alias cwd='cd "$(cat ~/.cwd)" 2>/dev/null'
 
 cwd
 
-source /home/tsuro/workspace/opt/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-ZSH_HIGHLIGHT_HIGHLIGHTERS=( main brackets)
-
 setopt prompt_subst
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' actionformats \

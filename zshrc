@@ -106,8 +106,6 @@ alias cwd='cd "$(cat ~/.cwd)" 2>/dev/null'
 
 cwd
 
-#export LD_PRELOAD="/home/tsuro/workspace/opt/stderred/build/libstderred.so${LD_PRELOAD:+:$LD_PRELOAD}"
-
 source /home/tsuro/workspace/opt/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 ZSH_HIGHLIGHT_HIGHLIGHTERS=( main brackets)

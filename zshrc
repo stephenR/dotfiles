@@ -1,9 +1,8 @@
 export WORDCHARS="*?_-.[]~=&;!#$%^(){}<>"
 
-# Lines configured by zsh-newuser-install
-HISTFILE=~/.histfile
-HISTSIZE=10000
-SAVEHIST=10000
+HISTSIZE=100000
+SAVEHIST=100000
+HISTFILE=~/.history
 setopt extendedglob
 bindkey -v
 bindkey "^?" backward-delete-char
@@ -22,22 +21,9 @@ zstyle ':completion:*:matches' group 'yes'
 zstyle ':completion:*:matches' group 'yes'
 zstyle ':completion:*:descriptions' format $'\e[01;33m -- %d --\e[0m'
 
-#temp from vincent
-#zstyle ':completion:*' verbose yes
-#zstyle ':completion:*:options' description 'yes'
-#zstyle ':completion:*:messages' format $'\e[01;35m -- %d --\e[0m'
-#zstyle ':completion:*:warnings' format $'\e[01;31m -- No Matches Found --\e[0m'
-#zstyle ':completion:*:corrections' format '%B%d (errors: %e)%b'
-#zstyle ':completion:*' group-name ''
-#zstyle ':completion:*:options' auto-description '%d'
-
-
 autoload -Uz compinit
 compinit
 # End of lines added by compinstall
-
-# correction
-#setopt correctall
 
 # prompt
 autoload -U promptinit
@@ -52,12 +38,6 @@ alias ls='ls --color=auto'
 alias grepc='grep --color=always'
 alias grep='grep --color=auto'
 
-if [ -e '/etc/fedora-release' ]; then
-  alias vim='gvim -v'
-fi
-
-export PATH="/home/tsuro/opt/bin:$PATH:/sbin:/usr/sbin:/usr/local/sbin"
-
 bindkey "^R" history-incremental-search-backward
 
 zstyle ':completion:*' menu select=5
@@ -69,34 +49,12 @@ bindkey "^N" accept-and-menu-complete
 
 bindkey "^P" push-line
 
-# change the cursor color with vi mode - only works in rxvt-unicode, afaik
-zle-keymap-select () {
-    if [[ $TERM == "rxvt" ]]; then
-        if [ $KEYMAP = vicmd ]; then
-            echo -ne "\033]12;Red\007"
-        else
-            echo -ne "\033]12;Grey\007"
-        fi
-    fi
-}
-zle -N zle-keymap-select
-zle-line-init () {
-    zle -K viins
-    if [[ $TERM == "rxvt" ]]; then
-        echo -ne "\033]12;Grey\007"
-    fi
-    # echo -n "[?25l"
-}
-zle -N zle-line-init
-
-#TODO syntax highlighting
-
-alias bell='echo -en "\a"'
+alias bell='(notify-send Terminal "Job finished with status $?"; echo -en "\a")'
 
 #switch to last working directory
 function cd() {
     builtin cd "$@";
-    if [ "$PWD" != "/home/tsuro" ]; then
+    if [ "$PWD" != "$HOME" ]; then
         echo "$PWD" >! ~/.cwd;
     fi
 }
@@ -123,15 +81,7 @@ vcs_info_wrapper() {
     echo "%{$fg[grey]%}${vcs_info_msg_0_}%{$reset_color%}$del"
 fi
 }
-#RPROMPT=$'$(vcs_info_wrapper)'
 
-
-
-#PROMPT="%{$fg[green]%}%n@%m%{$reset_color%}:%{$fg[blue]%}%~%{$reset_color%}% :"$'$(vcs_info_wrapper)'"# "
 PROMPT="%F{2}%n@%m:%F{3}%~%{$reset_color%}% :"$'$(vcs_info_wrapper)'"# "
-export PYTHONPATH=/home/tsuro/workspace/opt/clang/bindings/python
 
-
-export LIBRARY_PATH=/home/tsuro/workspace/msc/gcc/libfpprotect
-export LD_LIBRARY_PATH=/home/tsuro/workspace/msc/gcc/libfpprotect
-
+source ~/dotfiles/local/zshrc

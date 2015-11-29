@@ -1,6 +1,0 @@
-[Unit]
-Description=Eclim Daemon
-
-[Service]
-ExecStart=/home/tsuro/opt/eclipse/eclimd
-

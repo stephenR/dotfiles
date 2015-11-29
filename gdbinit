@@ -9,4 +9,4 @@ set width 0
 set output-radix 0x10
 set input-radix 0x10
 
-source ~/dotfiles/gdb_scripts/binbase.py
+source ~/dotfiles/gdb_scripts/gdbinit.py

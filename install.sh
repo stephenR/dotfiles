@@ -1,5 +1,6 @@
 #!/bin/bash
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}"  )" && pwd  )"
 FILES="vimrc gdbinit zshrc tmux.conf"
 
 for file in ${FILES}; do
@@ -10,5 +11,5 @@ for file in ${FILES}; do
 done
 
 for file in ${FILES}; do
-  ln -s ${file} ~/.${file}
+  ln -s ${DIR}/${file} ~/.${file}
 done

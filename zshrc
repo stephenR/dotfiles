@@ -37,6 +37,7 @@ alias lsc='ls --color=always'
 alias ls='ls --color=auto'
 alias grepc='grep --color=always'
 alias grep='grep --color=auto'
+alias gdb='gdb -q'
 
 bindkey "^R" history-incremental-search-backward
 

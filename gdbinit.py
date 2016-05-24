@@ -7,3 +7,5 @@ sys.path.append(os.path.dirname(exe))
 
 import binbase
 import maps
+import dumpmem
+import heap
